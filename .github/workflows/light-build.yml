@@ -1,0 +1,32 @@
+name: Light Build Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+        
+    - name: Test Python and Kivy import
+      run: |
+        pip install kivy==2.1.0
+        python -c "import kivy; print('Kivy version:', kivy.__version__)"
+        
+    - name: Create build info
+      run: |
+        echo "Light build test completed successfully!" > build-info.txt
+        echo "Python version: $(python --version)" >> build-info.txt
+        
+    - name: Upload build info
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-info
+        path: build-info.txt

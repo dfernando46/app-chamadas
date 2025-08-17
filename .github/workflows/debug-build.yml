@@ -1,0 +1,26 @@
+name: Debug Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Test file structure
+      run: |
+        echo "=== File structure ==="
+        ls -la
+        echo "=== Python files ==="
+        ls -la *.py
+        
+    - name: Setup Python and test import
+      run: |
+        pip install kivy==2.1.0
+        python -c "import main; print('Main import OK')"
+        
+    - name: Create debug info
+      run: |
+        echo "Debug build test completed" > debug-info.txt
